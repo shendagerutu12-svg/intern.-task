@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+</head>
+<body>
+
+<center>
+  <h2>Register</h2>
+
+  <form onsubmit="register(); return false;">
+    <input type="text" id="name" placeholder="Full Name"><br><br>
+    <input type="number" id="age" placeholder="Age"><br><br>
+    <input type="text" id="phone" placeholder="Phone"><br><br>
+    <input type="email" id="email" placeholder="Email"><br><br>
+    <textarea id="address" placeholder="Address"></textarea><br><br>
+    <input type="number" id="pincode" placeholder="Pincode"><br><br>
+    <input type="password" id="password" placeholder="Password"><br><br>
+
+    <button type="submit">Register</button>
+  </form>
+</center>
+
+<script>
+function register(){
+
+  let name = document.getElementById("name").value;
+  let age = document.getElementById("age").value;
+  let phone = document.getElementById("phone").value;
+  let email = document.getElementById("email").value;
+  let address = document.getElementById("address").value;
+  let pincode = document.getElementById("pincode").value;
+  let password = document.getElementById("password").value;
+
+  // Validation (PDF requirement)
+  if(name === "" || email === "" || password === ""){
+    alert("Name, Email , Password  are required ");
+    return;
+  }
+
+  let user = {
+    name,
+    age,
+    phone,
+    email,
+    address,
+    pincode,
+    password
+  };
+
+  localStorage.setItem("user", JSON.stringify(user));
+
+  alert("Registration Successful");
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
