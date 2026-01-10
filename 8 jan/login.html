@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+
+<center>
+  <h2>Login</h2>
+
+  <form onsubmit="login(); return false;">
+    <input type="text" id="loginValue" placeholder="Email or Phone"><br><br>
+    <input type="password" id="password" placeholder="Password"><br><br>
+
+    <button type="submit">Login</button>
+  </form>
+</center>
+
+<script>
+function login(){
+
+  let loginValue = document.getElementById("loginValue").value;
+  let password = document.getElementById("password").value;
+
+  if(loginValue === "" || password === ""){
+    alert("All fields required");
+    return;
+  }
+
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  if(user === null){
+    alert("Please register first");
+    return;
+  }
+
+  if(
+    (loginValue === user.email || loginValue === user.phone) &&
+    password === user.password
+  ){
+    alert("Login Successful");
+    window.location.href = "user data page.html";
+  } else {
+    alert("Invalid credentials");
+  }
+}
+</script>
+
+</body>
+</html>
