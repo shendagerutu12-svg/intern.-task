@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Profile</title>
+</head>
+<body>
+
+<center>
+  <h2>User Profile</h2>
+
+  <!-- NAME -->
+  <p>
+    Name:
+    <span id="nameText"></span>
+    <input type="text" id="nameInput" style="display:none;">
+  </p>
+
+  <!-- AGE -->
+  <p>
+    Age:
+    <span id="ageText"></span>
+    <input type="number" id="ageInput" style="display:none;">
+  </p>
+
+  <!-- PHONE -->
+  <p>
+    Phone:
+    <span id="phoneText"></span>
+    <input type="text" id="phoneInput" style="display:none;">
+  </p>
+
+  <!-- EMAIL -->
+  <p>
+    Email:
+    <span id="emailText"></span>
+    <input type="email" id="emailInput" style="display:none;">
+  </p>
+
+  <!-- ADDRESS -->
+  <p>
+    Address:
+    <span id="addressText"></span>
+    <input type="text" id="addressInput" style="display:none;">
+  </p>
+
+  <!-- PINCODE -->
+  <p>
+    Pincode:
+    <span id="pincodeText"></span>
+    <input type="number" id="pincodeInput" style="display:none;">
+  </p>
+
+  <br>
+
+  <button onclick="enableEdit()">Update Profile</button>
+  <button onclick="updateProfile()">Update the Changes</button>
+  <button onclick="openPopup()">Change Password</button>
+  <button onclick="logout()">Logout</button>
+
+  <!-- CHANGE PASSWORD POPUP -->
+  <div id="popup" style="display:none; border:1px solid black; padding:10px; margin-top:20px;">
+    <h3>Change Password</h3>
+
+    <input type="password" id="newPass" placeholder="New Password"><br><br>
+    <input type="password" id="confirmPass" placeholder="Confirm Password"><br><br>
+
+    <input type="checkbox" id="check">
+    I confirm to change my password<br><br>
+
+    <button onclick="changePassword()">Change</button>
+    <button onclick="closePopup()">Cancel</button>
+  </div>
+</center>
+
+<script>
+/* ---------- ROUTE PROTECTION ---------- */
+let user = JSON.parse(localStorage.getItem("user"));
+if(user === null){
+  window.location.href = "login.html";
+}
+
+/* ---------- DISPLAY USER DATA ---------- */
+document.getElementById("nameText").innerText = user.name;
+document.getElementById("ageText").innerText = user.age;
+document.getElementById("phoneText").innerText = user.phone;
+document.getElementById("emailText").innerText = user.email;
+document.getElementById("addressText").innerText = user.address;
+document.getElementById("pincodeText").innerText = user.pincode;
+
+/* ---------- ENABLE EDIT MODE ---------- */
+function enableEdit(){
+  toggle(true);
+
+  nameInput.value = user.name;
+  ageInput.value = user.age;
+  phoneInput.value = user.phone;
+  emailInput.value = user.email;
+  addressInput.value = user.address;
+  pincodeInput.value = user.pincode;
+}
+
+/* ---------- UPDATE PROFILE ---------- */
+function updateProfile(){
+  user.name = nameInput.value;
+  user.age = ageInput.value;
+  user.phone = phoneInput.value;
+  user.email = emailInput.value;
+  user.address = addressInput.value;
+  user.pincode = pincodeInput.value;
+
+  localStorage.setItem("user", JSON.stringify(user));
+  alert("Profile Updated Successfully");
+  location.reload();
+}
+
+/* ---------- TOGGLE VIEW / EDIT ---------- */
+function toggle(edit){
+  let fields = ["name","age","phone","email","address","pincode"];
+  fields.forEach(f=>{
+    document.getElementById(f+"Text").style.display = edit ? "none" : "inline";
+    document.getElementById(f+"Input").style.display = edit ? "inline" : "none";
+  });
+}
+
+/* ---------- PASSWORD POPUP ---------- */
+function openPopup(){
+  popup.style.display = "block";
+}
+function closePopup(){
+  popup.style.display = "none";
+}
+
+/* ---------- CHANGE PASSWORD ---------- */
+function changePassword(){
+  let p1 = newPass.value;
+  let p2 = confirmPass.value;
+  let check = document.getElementById("check").checked;
+
+  if(!check){
+    alert("Please confirm checkbox");
+    return;
+  }
+  if(p1 === "" || p2 === ""){
+    alert("Password required");
+    return;
+  }
+  if(p1 !== p2){
+    alert("Passwords do not match");
+    return;
+  }
+
+  user.password = p1;
+  localStorage.setItem("user", JSON.stringify(user));
+  alert("Password Changed Successfully");
+  closePopup();
+}
+
+/* ---------- LOGOUT ---------- */
+function logout(){
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
