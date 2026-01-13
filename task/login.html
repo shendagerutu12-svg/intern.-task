@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+
+  <style>
+    *{ box-sizing:border-box; font-family:"Segoe UI",sans-serif; }
+    body{
+      margin:0; height:100vh; background:#eef3f8;
+      display:flex; justify-content:center; align-items:center;
+    }
+    .login-box{
+      background:#fff; width:380px; padding:30px;
+      border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.12);
+      border-top:5px solid #4a90e2;
+    }
+    h2{ text-align:center; color:#4a90e2; }
+    input{
+      width:100%; padding:10px; margin-bottom:14px;
+      border:1px solid #ccc; border-radius:6px;
+    }
+    button{
+      width:100%; padding:11px; background:#4a90e2;
+      color:white; border:none; border-radius:6px; font-size:16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-box">
+  <h2>Login</h2>
+
+  <form onsubmit="login(); return false;">
+    <input type="text" id="loginValue" placeholder="Email or Phone">
+    <input type="password" id="password" placeholder="Password">
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+<script>
+function login(){
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  if(user === null){
+    alert("Please register first");
+    return;
+  }
+
+  if(
+    (loginValue.value === user.email || loginValue.value === user.phone) &&
+    password.value === user.password
+  ){
+    alert("Login Successful");
+    window.location.href = "user data.html";
+  }else{
+    alert("Invalid credentials");
+  }
+}
+</script>
+
+</body>
+</html>
