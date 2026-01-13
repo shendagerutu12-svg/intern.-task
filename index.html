@@ -1,92 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Tom and Jerry Card</title>
+  <title>Register</title>
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: Arial, sans-serif;
-}
-
-body{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#f1f5f9;
-}
-
-/* Card */
-.card{
-    width:340px;
-    background:#ffffff;
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
-    box-shadow:0 6px 15px rgba(0,0,0,0.2);
-}
-
-/* Characters */
-.characters{
-    display:flex;
-    justify-content:space-around;
-    margin-bottom:15px;
-}
-
-.character{
-    font-size:60px;
-    animation: bounce 2s infinite;
-}
-
-.character.jerry{
-    animation-delay:1s;
-}
-
-/* Text */
-h2{
-    margin-bottom:10px;
-    color:#333;
-}
-
-.info{
-    font-size:14px;
-    color:#555;
-    margin-bottom:8px;
-}
-
-/* Animation */
-@keyframes bounce{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-12px);}
-    100%{transform:translateY(0);}
-}
-</style>
+  <style>
+    *{ box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
+    body{
+      margin:0; height:100vh; background:#eef3f8;
+      display:flex; justify-content:center; align-items:center;
+    }
+    .register-box{
+      background:#fff; width:400px; padding:30px;
+      border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.12);
+      border-top:5px solid #4a90e2;
+    }
+    h2{ text-align:center; color:#4a90e2; }
+    input, textarea{
+      width:100%; padding:10px; margin-bottom:14px;
+      border:1px solid #ccc; border-radius:6px;
+    }
+    textarea{ resize:none; height:65px; }
+    button{
+      width:100%; padding:11px; background:#4a90e2;
+      color:white; border:none; border-radius:6px; font-size:16px;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="card">
+<div class="register-box">
+  <h2>Create Account</h2>
 
-    <div class="characters">
-        <div class="character tom">🐱</div>
-        <div class="character jerry">🐭</div>
-    </div>
-
-    <h2>Tom & Jerry</h2>
-
-    <p class="info">
-        <strong>Tom:</strong> A clever but often unlucky cat who tries to catch Jerry.
-    </p>
-
-    <p class="info">
-        <strong>Jerry:</strong> A smart and playful mouse who always outsmarts Tom.
-    </p>
-
+  <form onsubmit="register(); return false;">
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="number" id="age" placeholder="Age">
+    <input type="text" id="phone" placeholder="Phone">
+    <input type="email" id="email" placeholder="Email">
+    <textarea id="address" placeholder="Address"></textarea>
+    <input type="number" id="pincode" placeholder="Pincode">
+    <input type="password" id="password" placeholder="Password">
+    <button type="submit">Register</button>
+  </form>
 </div>
+
+<script>
+function register(){
+  let user = {
+    name: name.value,
+    age: age.value,
+    phone: phone.value,
+    email: email.value,
+    address: address.value,
+    pincode: pincode.value,
+    password: password.value
+  };
+
+  if(user.name==="" || user.email==="" || user.password===""){
+    alert("Name, Email and Password required");
+    return;
+  }
+
+  localStorage.setItem("user", JSON.stringify(user));
+  alert("Registration Successful");
+  window.location.href = "login.html";
+}
+</script>
 
 </body>
 </html>

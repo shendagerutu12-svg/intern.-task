@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Dashboard</title>
+</head>
+<body>
+
+<center>
+  <h2>User Dashboard</h2>
+
+  <!-- CARD -->
+  <table border="1" cellpadding="12" cellspacing="0" width="360">
+
+    <tr>
+      <td colspan="2" align="center"><b>User Profile</b></td>
+    </tr>
+
+    <!-- BASIC INFO -->
+    <tr>
+      <td colspan="2"><b>Basic Information</b></td>
+    </tr>
+    <tr>
+      <td>Name</td>
+      <td>
+        <span id="nameText"></span>
+        <input type="text" id="nameInput" style="display:none;">
+      </td>
+    </tr>
+    <tr>
+      <td>Age</td>
+      <td>
+        <span id="ageText"></span>
+        <input type="number" id="ageInput" style="display:none;">
+      </td>
+    </tr>
+
+    <!-- CONTACT INFO -->
+    <tr>
+      <td colspan="2"><b>Contact Details</b></td>
+    </tr>
+    <tr>
+      <td>Phone</td>
+      <td>
+        <span id="phoneText"></span>
+        <input type="text" id="phoneInput" style="display:none;">
+      </td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td>
+        <span id="emailText"></span>
+        <input type="email" id="emailInput" style="display:none;">
+      </td>
+    </tr>
+
+    <!-- ADDRESS INFO -->
+    <tr>
+      <td colspan="2"><b>Address</b></td>
+    </tr>
+    <tr>
+      <td>Address</td>
+      <td>
+        <span id="addressText"></span>
+        <input type="text" id="addressInput" style="display:none;">
+      </td>
+    </tr>
+    <tr>
+      <td>Pincode</td>
+      <td>
+        <span id="pincodeText"></span>
+        <input type="number" id="pincodeInput" style="display:none;">
+      </td>
+    </tr>
+  </table>
+
+  <br>
+
+  <button onclick="enableEdit()">Update Profile</button>
+  <button onclick="updateProfile()">Update the Changes</button>
+  <button onclick="openPopup()">Change Password</button>
+  <button onclick="logout()">Logout</button>
+
+  <br><br>
+
+  <!-- CHANGE PASSWORD POPUP -->
+  <div id="popup" style="display:none;">
+    <fieldset style="width:260px;">
+      <legend><b>Change Password</b></legend>
+
+      <input type="password" id="newPass" placeholder="New Password"><br><br>
+      <input type="password" id="confirmPass" placeholder="Confirm Password"><br><br>
+
+      <input type="checkbox" id="check"> Confirm password change<br><br>
+
+      <button onclick="changePassword()">Change</button>
+      <button onclick="closePopup()">Cancel</button>
+    </fieldset>
+  </div>
+
+</center>
+
+<script>
+/* 🔐 ROUTE PROTECTION */
+let user = JSON.parse(localStorage.getItem("user"));
+if(user === null){
+  window.location.href = "login.html";
+}
+
+/* 📄 DISPLAY DATA */
+nameText.innerText = user.name;
+ageText.innerText = user.age;
+phoneText.innerText = user.phone;
+emailText.innerText = user.email;
+addressText.innerText = user.address;
+pincodeText.innerText = user.pincode;
+
+/* ✏️ ENABLE EDIT */
+function enableEdit(){
+  toggle(true);
+
+  nameInput.value = user.name;
+  ageInput.value = user.age;
+  phoneInput.value = user.phone;
+  emailInput.value = user.email;
+  addressInput.value = user.address;
+  pincodeInput.value = user.pincode;
+}
+
+/* 💾 UPDATE PROFILE */
+function updateProfile(){
+  user.name = nameInput.value;
+  user.age = ageInput.value;
+  user.phone = phoneInput.value;
+  user.email = emailInput.value;
+  user.address = addressInput.value;
+  user.pincode = pincodeInput.value;
+
+  localStorage.setItem("user", JSON.stringify(user));
+  alert("Profile Updated Successfully");
+  location.reload();
+}
+
+/* 🔁 TOGGLE VIEW / EDIT */
+function toggle(edit){
+  let f = ["name","age","phone","email","address","pincode"];
+  f.forEach(x=>{
+    document.getElementById(x+"Text").style.display = edit ? "none" : "inline";
+    document.getElementById(x+"Input").style.display = edit ? "inline" : "none";
+  });
+}
+
+/* 🔑 PASSWORD POPUP */
+function openPopup(){
+  popup.style.display = "block";
+}
+function closePopup(){
+  popup.style.display = "none";
+}
+
+/* 🔐 CHANGE PASSWORD */
+function changePassword(){
+  let p1 = newPass.value;
+  let p2 = confirmPass.value;
+  let c = check.checked;
+
+  if(!c){
+    alert("Checkbox tick करा");
+    return;
+  }
+  if(p1 === "" || p2 === ""){
+    alert("Password required");
+    return;
+  }
+  if(p1 !== p2){
+    alert("Password does not match");
+    return;
+  }
+
+  user.password = p1;
+  localStorage.setItem("user", JSON.stringify(user));
+  alert("Password Changed Successfully");
+  closePopup();
+}
+
+/* 🚪 LOGOUT */
+function logout(){
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
