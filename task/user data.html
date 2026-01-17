@@ -1,112 +1,137 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>User Dashboard</title>
+  <title>User Profile</title>
+
+  <style>
+    *{
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body{
+      margin: 0;
+      height: 100vh;
+      background: #eef3f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .profile-box{
+      background: #ffffff;
+      width: 400px;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      border-top: 5px solid #4a90e2;
+    }
+
+    h2{
+      text-align: center;
+      color: #4a90e2;
+      margin-bottom: 20px;
+    }
+
+    .row{
+      margin-bottom: 14px;
+    }
+
+    .row label{
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .row span,
+    .row input{
+      width: 100%;
+      font-size: 14px;
+    }
+
+    .row input{
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      display: none;
+    }
+
+    /* SIMPLE NEUTRAL BUTTONS */
+    button{
+      width: 100%;
+      padding: 11px;
+      background: #f5f5f5;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button:hover{
+      background: #ededed;
+    }
+
+    button:active{
+      background: #e0e0e0;
+    }
+  </style>
 </head>
+
 <body>
 
-<center>
-  <h2>User Dashboard</h2>
+<div class="profile-box">
+  <h2>User Profile</h2>
 
-  <!-- CARD -->
-  <table border="1" cellpadding="12" cellspacing="0" width="360">
-
-    <tr>
-      <td colspan="2" align="center"><b>User Profile</b></td>
-    </tr>
-
-    <!-- BASIC INFO -->
-    <tr>
-      <td colspan="2"><b>Basic Information</b></td>
-    </tr>
-    <tr>
-      <td>Name</td>
-      <td>
-        <span id="nameText"></span>
-        <input type="text" id="nameInput" style="display:none;">
-      </td>
-    </tr>
-    <tr>
-      <td>Age</td>
-      <td>
-        <span id="ageText"></span>
-        <input type="number" id="ageInput" style="display:none;">
-      </td>
-    </tr>
-
-    <!-- CONTACT INFO -->
-    <tr>
-      <td colspan="2"><b>Contact Details</b></td>
-    </tr>
-    <tr>
-      <td>Phone</td>
-      <td>
-        <span id="phoneText"></span>
-        <input type="text" id="phoneInput" style="display:none;">
-      </td>
-    </tr>
-    <tr>
-      <td>Email</td>
-      <td>
-        <span id="emailText"></span>
-        <input type="email" id="emailInput" style="display:none;">
-      </td>
-    </tr>
-
-    <!-- ADDRESS INFO -->
-    <tr>
-      <td colspan="2"><b>Address</b></td>
-    </tr>
-    <tr>
-      <td>Address</td>
-      <td>
-        <span id="addressText"></span>
-        <input type="text" id="addressInput" style="display:none;">
-      </td>
-    </tr>
-    <tr>
-      <td>Pincode</td>
-      <td>
-        <span id="pincodeText"></span>
-        <input type="number" id="pincodeInput" style="display:none;">
-      </td>
-    </tr>
-  </table>
-
-  <br>
-
-  <button onclick="enableEdit()">Update Profile</button>
-  <button onclick="updateProfile()">Update the Changes</button>
-  <button onclick="openPopup()">Change Password</button>
-  <button onclick="logout()">Logout</button>
-
-  <br><br>
-
-  <!-- CHANGE PASSWORD POPUP -->
-  <div id="popup" style="display:none;">
-    <fieldset style="width:260px;">
-      <legend><b>Change Password</b></legend>
-
-      <input type="password" id="newPass" placeholder="New Password"><br><br>
-      <input type="password" id="confirmPass" placeholder="Confirm Password"><br><br>
-
-      <input type="checkbox" id="check"> Confirm password change<br><br>
-
-      <button onclick="changePassword()">Change</button>
-      <button onclick="closePopup()">Cancel</button>
-    </fieldset>
+  <div class="row">
+    <label>Name</label>
+    <span id="nameText"></span>
+    <input type="text" id="nameInput">
   </div>
 
-</center>
+  <div class="row">
+    <label>Age</label>
+    <span id="ageText"></span>
+    <input type="number" id="ageInput">
+  </div>
+
+  <div class="row">
+    <label>Phone</label>
+    <span id="phoneText"></span>
+    <input type="text" id="phoneInput">
+  </div>
+
+  <div class="row">
+    <label>Email</label>
+    <span id="emailText"></span>
+    <input type="email" id="emailInput">
+  </div>
+
+  <div class="row">
+    <label>Address</label>
+    <span id="addressText"></span>
+    <input type="text" id="addressInput">
+  </div>
+
+  <div class="row">
+    <label>Pincode</label>
+    <span id="pincodeText"></span>
+    <input type="number" id="pincodeInput">
+  </div>
+
+  <button onclick="enableEdit()">Edit Profile</button>
+  <button onclick="updateProfile()">Save Changes</button>
+  <button onclick="logout()">Logout</button>
+</div>
 
 <script>
-/* 🔐 ROUTE PROTECTION */
 let user = JSON.parse(localStorage.getItem("user"));
-if(user === null){
+if(!user){
   window.location.href = "login.html";
 }
 
-/* 📄 DISPLAY DATA */
 nameText.innerText = user.name;
 ageText.innerText = user.age;
 phoneText.innerText = user.phone;
@@ -114,10 +139,8 @@ emailText.innerText = user.email;
 addressText.innerText = user.address;
 pincodeText.innerText = user.pincode;
 
-/* ✏️ ENABLE EDIT */
 function enableEdit(){
   toggle(true);
-
   nameInput.value = user.name;
   ageInput.value = user.age;
   phoneInput.value = user.phone;
@@ -126,7 +149,6 @@ function enableEdit(){
   pincodeInput.value = user.pincode;
 }
 
-/* 💾 UPDATE PROFILE */
 function updateProfile(){
   user.name = nameInput.value;
   user.age = ageInput.value;
@@ -140,49 +162,13 @@ function updateProfile(){
   location.reload();
 }
 
-/* 🔁 TOGGLE VIEW / EDIT */
 function toggle(edit){
-  let f = ["name","age","phone","email","address","pincode"];
-  f.forEach(x=>{
+  ["name","age","phone","email","address","pincode"].forEach(x=>{
     document.getElementById(x+"Text").style.display = edit ? "none" : "inline";
     document.getElementById(x+"Input").style.display = edit ? "inline" : "none";
   });
 }
 
-/* 🔑 PASSWORD POPUP */
-function openPopup(){
-  popup.style.display = "block";
-}
-function closePopup(){
-  popup.style.display = "none";
-}
-
-/* 🔐 CHANGE PASSWORD */
-function changePassword(){
-  let p1 = newPass.value;
-  let p2 = confirmPass.value;
-  let c = check.checked;
-
-  if(!c){
-    alert("Checkbox tick करा");
-    return;
-  }
-  if(p1 === "" || p2 === ""){
-    alert("Password required");
-    return;
-  }
-  if(p1 !== p2){
-    alert("Password does not match");
-    return;
-  }
-
-  user.password = p1;
-  localStorage.setItem("user", JSON.stringify(user));
-  alert("Password Changed Successfully");
-  closePopup();
-}
-
-/* 🚪 LOGOUT */
 function logout(){
   localStorage.clear();
   window.location.href = "login.html";
